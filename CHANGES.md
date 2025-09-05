@@ -1,7 +1,12 @@
+
 ## Unreleased
 
 - Support `Ptype_open`, e.g. `type u = X.(x) [@@deriving json]`
   ([#60](https://github.com/melange-community/melange-json/pull/60))
+- **[breaking]** PPX: Serialize/deserialize variants with no payload as strings
+  instead of single-element lists, while variants with payloads are serialized
+  as lists. Backward compatibility is preserved - lists with only one value
+  (the constructor) can still be parsed.
 
 ## 2.0.0 (2025-03-11)
 

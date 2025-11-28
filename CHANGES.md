@@ -1,4 +1,3 @@
-
 ## Unreleased
 
 - Support `Ptype_open`, e.g. `type u = X.(x) [@@deriving json]`
@@ -7,6 +6,9 @@
   instead of single-element lists, while variants with payloads are serialized
   as lists. Backward compatibility is preserved - lists with only one value
   (the constructor) can still be parsed.
+- PPX: Add `[@@json.legacy_variant]` attribute to force payloadless variants to
+  serialize as single-element arrays (e.g., `["A"]` instead of `"A"`), useful for
+  backward compatibility with consumers expecting the old format.
 
 ## 2.0.0 (2025-03-11)
 

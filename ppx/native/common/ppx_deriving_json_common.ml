@@ -48,9 +48,9 @@ let vcs_should_serialize_as_string ?(legacy = false) vcs =
   else
     match vcs with
     | Vcs_tuple (_, t) ->
-        let arity = List.length t.tpl_types in
         (* Automatically serialize as string if no payload, unless explicitly disabled *)
-        arity = 0 && not (vcs_attr_json_allow_any t.tpl_ctx)
+        List.is_empty t.tpl_types
+        && not (vcs_attr_json_allow_any t.tpl_ctx)
     | Vcs_record (_, _) ->
         (* Records always serialize as lists (current behavior) *)
         false

@@ -144,9 +144,8 @@ module Of_json = struct
           let p_list =
             [%pat? `List [ `String [%p pstring ~loc:n.loc n.txt] ]]
           in
-          let vcs = Vcs_tuple (n, t) in
           let p =
-            if vcs_should_serialize_as_string vcs then
+            if vcs_should_serialize_as_string (Vcs_tuple (n, t)) then
               [%pat? [%p p_list] | `String [%p pstring ~loc:n.loc n.txt]]
             else p_list
           in
@@ -243,10 +242,10 @@ module To_json = struct
     | Vcs_tuple (n, t) ->
         let loc = n.loc in
         let n = Option.value ~default:n (vcs_attr_json_name t.tpl_ctx) in
-        let arity = List.length t.tpl_types in
-        let vcs = Vcs_tuple (n, t) in
-        if arity = 0 && vcs_should_serialize_as_string ~legacy vcs then
-          [%expr `String [%e estring ~loc:n.loc n.txt]]
+        if
+          List.is_empty t.tpl_types
+          && vcs_should_serialize_as_string ~legacy (Vcs_tuple (n, t))
+        then [%expr `String [%e estring ~loc:n.loc n.txt]]
         else
           [%expr
             `List

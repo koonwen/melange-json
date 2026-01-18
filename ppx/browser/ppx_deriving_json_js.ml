@@ -113,9 +113,7 @@ module Of_json = struct
     let has_string_tag_cases =
       List.exists t.vrt_cases ~f:(function
         | Vcs_record _ -> false
-        | Vcs_tuple (_, tcase) ->
-            let arity = List.length tcase.tpl_types in
-            Stdlib.( = ) arity 0)
+        | Vcs_tuple (_, tcase) -> List.is_empty tcase.tpl_types)
     in
     (* Check if we have any cases that need tag comparison (non-allow_any cases) *)
     let has_tag_comparison_cases =
@@ -130,8 +128,7 @@ module Of_json = struct
         List.filter_map t.vrt_cases ~f:(function
           | Vcs_record _ -> None
           | Vcs_tuple (n, tcase) ->
-              let arity = List.length tcase.tpl_types in
-              if Stdlib.( = ) arity 0 then
+              if List.is_empty tcase.tpl_types then
                 let n' =
                   Option.value ~default:n
                     (vcs_attr_json_name tcase.tpl_ctx)
@@ -235,7 +232,7 @@ module Of_json = struct
               ensure_json_array_len ~loc ~allow_any_constr (arity + 1)
                 [%expr len] [%expr x]
                 ~else_:
-                  (if Stdlib.( = ) arity 0 then make None
+                  (if arity = 0 then make None
                    else
                      make
                        (Some
@@ -311,8 +308,7 @@ module To_json = struct
         let tag =
           [%expr (Obj.magic [%e estring ~loc:n.loc n.txt] : Js.Json.t)]
         in
-        let arity = List.length t.tpl_types in
-        if arity = 0 && not legacy then
+        if List.is_empty t.tpl_types && not legacy then
           as_json ~loc
             [%expr (Obj.magic [%e estring ~loc:n.loc n.txt] : Js.Json.t)]
         else

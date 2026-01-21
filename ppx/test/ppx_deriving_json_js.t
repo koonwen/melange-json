@@ -1717,10 +1717,10 @@
   end [@@ocaml.doc "@inline"] [@@merlin.hide]
 
   $ cat <<"EOF" | run
-  > type legacy_variant = A | B of int [@@deriving json] [@@json.legacy_variant]
+  > type legacy_variant = A | B of int [@@deriving json] [@@json.no_args_variant_cases_as_arrays]
   > EOF
   type legacy_variant = A | B of int
-  [@@deriving json] [@@json.legacy_variant]
+  [@@deriving json] [@@json.no_args_variant_cases_as_arrays]
   
   include struct
     let _ = fun (_ : legacy_variant) -> ()

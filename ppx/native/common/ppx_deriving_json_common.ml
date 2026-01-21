@@ -35,9 +35,9 @@ let vcs_attr_json_allow_any =
     | None -> false
     | Some () -> true
 
-let td_attr_json_legacy_variant =
+let td_attr_no_args_variant_cases_as_arrays_variant =
   Attribute.get
-    (Attribute.declare "json.legacy_variant"
+    (Attribute.declare "json.no_args_variant_cases_as_arrays"
        Attribute.Context.type_declaration
        Ast_pattern.(pstr nil)
        ())

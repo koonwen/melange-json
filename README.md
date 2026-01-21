@@ -329,14 +329,14 @@ type string_option =
 
 For backward compatibility, the old list format (e.g., `["None"]`) can still be parsed when deserializing.
 
-#### `[@@json.legacy_variant]`: backward-compatible variant serialization
+#### `[@@json.no_args_variant_cases_as_arrays]`: backward-compatible variant serialization
 
 When applied to a variant type, this attribute forces payloadless variants to
 serialize as single-element arrays instead of strings. This is useful when you
 need to produce JSON that's compatible with consumers expecting the old format:
 
 ```ocaml
-type t = A | B of int [@@deriving json] [@@json.legacy_variant]
+type t = A | B of int [@@deriving json] [@@json.no_args_variant_cases_as_arrays]
 
 (* A serializes to: ["A"] instead of "A" *)
 (* B 42 serializes to: ["B", 42] (unchanged) *)

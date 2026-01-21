@@ -228,7 +228,9 @@ module To_json = struct
   let derive_of_variant_case derive td_opt vcs es =
     let legacy =
       match td_opt with
-      | Some td -> Option.is_some (td_attr_json_legacy_variant td)
+      | Some td ->
+          Option.is_some
+            (td_attr_no_args_variant_cases_as_arrays_variant td)
       | None -> false
     in
     match vcs with

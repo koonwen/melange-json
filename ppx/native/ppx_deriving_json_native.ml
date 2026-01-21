@@ -244,10 +244,8 @@ module To_json = struct
     | Vcs_tuple (n, t) ->
         let loc = n.loc in
         let n = Option.value ~default:n (vcs_attr_json_name t.tpl_ctx) in
-        if
-          List.is_empty t.tpl_types
-          && vcs_should_serialize_as_string ~legacy (Vcs_tuple (n, t))
-        then [%expr `String [%e estring ~loc:n.loc n.txt]]
+        if vcs_should_serialize_as_string ~legacy (Vcs_tuple (n, t)) then
+          [%expr `String [%e estring ~loc:n.loc n.txt]]
         else
           [%expr
             `List

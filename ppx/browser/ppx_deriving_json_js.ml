@@ -111,9 +111,7 @@ module Of_json = struct
     let loc = t.vrt_loc in
     (* Check if we have zero-arity cases that need string tag decoding *)
     let has_string_tag_cases =
-      List.exists t.vrt_cases ~f:(function
-        | Vcs_record _ -> false
-        | Vcs_tuple (_, tcase) -> List.is_empty tcase.tpl_types)
+      List.exists t.vrt_cases ~f:vcs_should_serialize_as_string
     in
     (* Check if we have any cases that need tag comparison (non-allow_any cases) *)
     let has_tag_comparison_cases =
